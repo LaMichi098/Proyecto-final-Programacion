@@ -1,34 +1,47 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace OrdenaNumeros
 {
-    public class Logic
+    public partial class Form1 : Form
     {
-        
         //Atributos propios del juego
         private int[,] matrizValores;
-        private Button[,] matrizBotones; //creo que el botón se puede quitar por ser objeto
+        private Button[,] matrizBotones;
         private int posicionFila, posicionColumna;
-               
-        public Logic()
+
+        /// <summary>
+        /// Constructor de la clase Form1
+        /// </summary>
+        public Form1()
         {
+            InitializeComponent();
+
             posicionFila = 0;
             posicionColumna = 0;
 
             matrizBotones = new Button[4, 4];
             matrizValores = new int[4, 4];
+
+            //Aqui se invocan los metodos que inicializan las matrices
+            InicializaMatrizBotones();
+            InicializaMatrizValores();
+        }
+
+        /// <summary>
+        /// Evento que se usa cuando se carga la forma por primera vez
+        /// </summary>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //Se invoca la inicialización de botones
+            InicializaEtiquetaBotones();
         }
 
         /// <summary>
         /// Inicializa la matriz de botones, con los botones del interfaz
         /// </summary>
-        public void InicializaMatrizBotones(Button boton1, Button boton2, Button boton3, Button boton4, Button boton5, Button boton6, Button boton7, Button boton8, Button boton9, Button boton10, Button boton11, Button boton12, Button boton13, Button boton14, Button boton15, Button boton16)
+        private void InicializaMatrizBotones()
         {
             matrizBotones[0, 0] = boton1;
             matrizBotones[0, 1] = boton2;
@@ -54,7 +67,7 @@ namespace OrdenaNumeros
         /// <summary>
         /// Inicializa la matriz de valores, asignando los numeros a organizar
         /// </summary>
-        public void InicializaMatrizValores()
+        private void InicializaMatrizValores()
         {
             int valor = 0;
 
@@ -67,6 +80,7 @@ namespace OrdenaNumeros
                     valor++;
                 }
             }
+
             //Luego, procedemos a cambiar los valores de posición de manera aleatoria
 
             Random aleatorio = new Random();
@@ -92,7 +106,7 @@ namespace OrdenaNumeros
         /// Asigna los valores de la matrizValores como etiquetas de los
         /// botones en la matrizBotones
         /// </summary>
-        public void InicializaEtiquetaBotones()
+        private void InicializaEtiquetaBotones()
         {
             //Recalculamos la matriz de valores
             InicializaMatrizValores();
@@ -112,12 +126,118 @@ namespace OrdenaNumeros
         }
 
         /// <summary>
+        /// Evento para reiniciar el juego desde la barra de Menus - ItemReiniciaJuego
+        /// </summary>
+        private void menuItemReiniciaJuego_Click(object sender, EventArgs e)
+        {
+            //Se invoca la inicialización de botones
+            InicializaEtiquetaBotones();
+
+            //Se activan los botones para que puedan ser usados 
+            ActivaBotones();
+
+            //Se le coloca el color de fondo predeterminado
+            InicializaFondoBotones();
+
+            //Se da la notificación si el valor se encuentra en la posición correcta
+            NotificaPosicionCorrectaValor();
+        }
+
+        private void boton1_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(1, 0, 0);
+        }
+
+        private void boton2_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(2, 0, 1);
+        }
+
+        private void boton3_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(3, 0, 2);
+        }
+
+        private void boton4_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(4, 0, 3);
+        }
+
+        private void boton5_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(5, 1, 0);
+        }
+
+        private void boton6_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(6, 1, 1);
+        }
+
+        private void boton7_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(7, 1, 2);
+        }
+
+        private void boton8_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(8, 1, 3);
+        }
+
+        private void boton9_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(9, 2, 0);
+        }
+
+        private void boton10_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(10, 2, 1);
+        }
+
+        private void boton11_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(11, 2, 2);
+        }
+
+        private void boton12_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(12, 2, 3);
+        }
+
+        private void boton13_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(13, 3, 0);
+        }
+
+        private void boton14_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(14, 3, 1);
+        }
+
+        private void boton15_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(15, 3, 2);
+        }
+
+        private void boton16_Click(object sender, EventArgs e)
+        {
+            EvaluaBotonPresionado(16, 3, 3);
+        }
+
+        /// <summary>
+        /// Evento para item salir que cierra la aplicación
+        /// </summary>
+        private void menuItemSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        /// <summary>
         /// Evalua información asociada al botón presionado
         /// </summary>
         /// <param name="numeroBoton">Consecutivo del botón presionado</param>
         /// <param name="datoFila">Fila en la matriz a la que pertenece el botón</param>
         /// <param name="datoColumna">Columna en la matriz a la que pertenece el botón</param>
-        public void EvaluaBotonPresionado(int numeroBoton, int datoFila, int datoColumna)
+        private void EvaluaBotonPresionado(int numeroBoton, int datoFila, int datoColumna)
         {
             posicionFila = datoFila;
             posicionColumna = datoColumna;
@@ -132,7 +252,7 @@ namespace OrdenaNumeros
         /// <summary>
         /// Evalua si la posición presionada está adjacente al espacio disponible para usar
         /// </summary>
-        public void EvaluaPosicion()
+        private void EvaluaPosicion()
         {
             int valorTemporal = 0;
 
@@ -197,47 +317,9 @@ namespace OrdenaNumeros
         }
 
         /// <summary>
-        /// Notifica que el número se encuentra en la posición correcta, cambiando el color de fondo del botón
-        /// </summary>
-        public void NotificaPosicionCorrectaValor()
-        {
-
-            int[,] valoresEsperados = new int[4, 4];
-            int valor = 1;
-
-            int totalFilas = valoresEsperados.GetLength(0);
-            int totalColumnas = valoresEsperados.GetLength(1);
-
-            //Aqui llenamos la matriz de los valores esperados
-            for (int i = 0; i < totalFilas; i++)
-                for (int j = 0; j < totalColumnas; j++)
-                {
-                    valoresEsperados[i, j] = valor;
-                    valor++;
-                }
-
-            //Al finalizar el juego, en la posición 4,4 se encuentra el 0
-            valoresEsperados[3, 3] = 0;
-
-            //Ahora comparamos con los valores actuales para saber si están en la posición correcta
-            for (int i = 0; i < totalFilas; i++)
-                for (int j = 0; j < totalColumnas; j++)
-                {
-                    if (matrizValores[i, j] == valoresEsperados[i, j])
-                        matrizBotones[i, j].BackColor = Color.LightGreen;
-                    else
-                        matrizBotones[i, j].BackColor = Color.LightGray;
-
-                    //El botón que tiene el 0 no deberá cambiar de color
-                    if (matrizValores[i, j] == 0)
-                        matrizBotones[i, j].BackColor = Color.LightGray;
-                }
-        }
-
-        /// <summary>
         /// Esta función valida si todos los números están organizados
         /// </summary>
-        public void EvaluaCondicionVictoria()
+        private void EvaluaCondicionVictoria()
         {
             //Partimos del supuesto que ya logramos la condición de victoria
             bool condicionVictoria = true;
@@ -280,7 +362,7 @@ namespace OrdenaNumeros
         /// <summary>
         /// Esta función inactiva los botones para ser utilizados en el juego
         /// </summary>
-        public void InactivaBotones()
+        private void InactivaBotones()
         {
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
@@ -290,14 +372,55 @@ namespace OrdenaNumeros
         /// <summary>
         /// Esta función activa los botones para ser utilizados en el juego
         /// </summary>
-        public void ActivaBotones()
+        private void ActivaBotones()
         {
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     matrizBotones[i, j].Enabled = true;
         }
 
-        public void InicializaFondoBotones()
+        /// <summary>
+        /// Notifica que el número se encuentra en la posición correcta, cambiando el color de fondo del botón
+        /// </summary>
+        private void NotificaPosicionCorrectaValor()
+        {
+
+            int[,] valoresEsperados = new int[4, 4];
+            int valor = 1;
+
+            int totalFilas = valoresEsperados.GetLength(0);
+            int totalColumnas = valoresEsperados.GetLength(1);
+
+            //Aqui llenamos la matriz de los valores esperados
+            for (int i = 0; i < totalFilas; i++)
+                for (int j = 0; j < totalColumnas; j++)
+                {
+                    valoresEsperados[i, j] = valor;
+                    valor++;
+                }
+
+            //Al finalizar el juego, en la posición 4,4 se encuentra el 0
+            valoresEsperados[3, 3] = 0;
+
+            //Ahora comparamos con los valores actuales para saber si están en la posición correcta
+            for (int i = 0; i < totalFilas; i++)
+                for (int j = 0; j < totalColumnas; j++)
+                {
+                    if (matrizValores[i, j] == valoresEsperados[i, j])
+                        matrizBotones[i, j].BackColor = Color.LightGreen;
+                    else
+                        matrizBotones[i, j].BackColor = Color.LightGray;
+
+                    //El botón que tiene el 0 no deberá cambiar de color
+                    if(matrizValores[i, j]==0)
+                        matrizBotones[i, j].BackColor = Color.LightGray;
+                }
+        }
+
+        /// <summary>
+        /// Método que inicializa el fondo de los botones con un color gris claro
+        /// </summary>
+        private void InicializaFondoBotones()
         {
             int totalFilas = matrizBotones.GetLength(0);
             int totalColumnas = matrizBotones.GetLength(1);
@@ -307,9 +430,6 @@ namespace OrdenaNumeros
                 for (int j = 0; j < totalColumnas; j++)
                     matrizBotones[i, j].BackColor = Color.LightGray;
         }
-
-
     }
-
 }
 
